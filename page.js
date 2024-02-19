@@ -4,13 +4,35 @@ module.exports = {
     toField: '#to',
     phoneNumberField: '#phone',
     codeField: '#code',
+    cardNumberField: '#number',
+    cardCodeField: '#code.card-input',
+    messageForDriver: '#comment',
     // Buttons
     callATaxiButton: 'button=Call a taxi',
+    supportivePlanButton:'div=Supportive',
+    supportivePlanButtonActive:'div=Supportive',
     phoneNumberButton: '//div[starts-with(text(), "Phone number")]',
     nextButton: 'button=Next',
     confirmButton: 'button=Confirm',
+    paymentMethodButton: 'div.pp-text=Payment method',
+    addCardButton: 'div=Add card',
+    linkButton: 'button=Link',
+    iceCreamCounterPlusButton: 'div.counter-plus',
+    iceCreamCounterValue: 'div.counter-value',
+    paymentMethodModalcloseButton: '.payment-picker .close-button',
+    confirmOrderButton: 'button.smart-button',
+    carSearchProgress: 'div.order-progress',
+    driveInfo: '//div[starts-with(text(), "The driver will arrive")]',
+    //Radioboxes
+    newFirstCard: '#card-1',
+    //Checkboxs
+    blanketCheckbox: 'div.r-sw',
+    blanketCheckboxState: 'input.switch-input',
+
+
     // Modals
     phoneNumberModal: '.modal',
+    carSearchModal: 'div.order',
     // Functions
     fillAddresses: async function(from, to) {
         const fromField = await $(this.fromField);
@@ -47,5 +69,23 @@ module.exports = {
         const code = await requests[0].response.body.code
         await codeField.setValue(code)
         await $(this.confirmButton).click()
+    },
+    selectSupportivePlan: async function(){
+        const supportivePlanButton = await $(this.supportivePlanButton);
+        await supportivePlanButton.waitForDisplayed();
+        await supportivePlanButton.click();
+    },
+    fillCardInfo: async function(cardNumber, code){
+        const cardNumberField = await $(this.cardNumberField);
+        await cardNumberField.waitForDisplayed();
+        await cardNumberField.setValue(cardNumber);
+
+        const cardCodeField = await $(this.cardCodeField);
+        await cardCodeField.waitForDisplayed();
+        await cardCodeField.setValue(code);
+
+        const linkButton = await $(this.linkButton);
+        await linkButton.waitForDisplayed();
+        await linkButton.doubleClick();
     },
 };
